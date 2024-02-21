@@ -23,9 +23,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['rol'] = $row['rol'];
 
         if ($row['rol'] == 'usuario') {
-            header("Location: user/user.html");
+            header("Location: views/user/user.html");
         } elseif ($row['rol'] == 'admin') {
-            header("Location: admin/admin.html");
+            header("Location: views/admin/admin.html");
         }
         exit(); // Asegura que no se ejecute más código después de la redirección
     } else {
