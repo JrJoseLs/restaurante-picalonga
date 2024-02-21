@@ -13,6 +13,8 @@
 // Manejar las solicitudes HTTP
 $method = $_SERVER['REQUEST_METHOD'];
 
+require_once "../../config.php";
+
 switch ($method) {
     case 'GET':
         // Operación Leer (GET)
