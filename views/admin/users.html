@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD de Usuarios</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body>
+    <h1>USUARIO DE MIERDA EN EL PICAPOOLLO</h1>
+    <form action="../../logout.php" method="post">
+        <button type="submit">Cerrar Sesión</button>
+    </form>
+
+    <div class="container">
+        <h2>Agregar Usuario</h2>
+        <form id="formularioUsuario">
+            <input type="text" id="nombre" placeholder="Nombre" required>
+            <input type="email" id="correo" placeholder="Correo electrónico" required>
+            <input type="password" id="contraseña" placeholder="Contraseña" required>
+            <select id="rol">
+                <option value="usuario">Usuario</option>
+                <option value="admin">Admin</option>
+            </select>
+            <button type="submit">Agregar Usuario</button>
+        </form>
+
+        <h2>Lista de Usuarios</h2>
+        <table id="tablaUsuarios">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Correo Electrónico</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí se mostrarán los usuarios -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal para editar usuario -->
+    <div id="modalEditarUsuario" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Editar Usuario</h2>
+            <form id="formularioEditarUsuario">
+                <input type="hidden" id="edit_id" name="edit_id">
+                <input type="text" id="edit_nombre" placeholder="Nombre" required>
+                <input type="email" id="edit_correo" placeholder="Correo electrónico" required>
+                <select id="edit_rol">
+                    <option value="usuario">Usuario</option>
+                    <option value="admin">Admin</option>
+                </select>
+                <button type="submit">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Función para cargar la lista de usuarios al cargar la página
+            function cargarUsuarios() {
+                $.ajax({
+                    url: 'crud.php',
+                    type: 'GET',
+                    success: function (response) {
+                        var usuarios = JSON.parse(response);
+                        var tablaUsuarios = $('#tablaUsuarios tbody');
+                        tablaUsuarios.empty(); // Limpiar la tabla antes de agregar usuarios
+                        usuarios.forEach(function (usuario) {
+                            tablaUsuarios.append('<tr><td>' + usuario.nombre + '</td><td>' + usuario.correo + '</td><td>' + usuario.rol + '</td><td><button class="editarUsuario" data-id="' + usuario.id + '">Editar</button><button class="eliminarUsuario" data-id="' + usuario.id + '">Eliminar</button></td></tr>');
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('Error al obtener la lista de usuarios:', error);
+                    }
+                });
+            }
+
+            // Cargar la lista de usuarios al cargar la página
+            cargarUsuarios();
+
+            // Abrir modal para editar usuario
+            $(document).on('click', '.editarUsuario', function () {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: 'crud.php?id=' + id,
+                    type: 'GET',
+                    success: function (response) {
+                        var usuario = JSON.parse(response);
+                        $('#edit_id').val(usuario.id);
+                        $('#edit_nombre').val(usuario.nombre);
+                        $('#edit_correo').val(usuario.correo);
+                        $('#edit_rol').val(usuario.rol);
+                        $('#modalEditarUsuario').css('display', 'block');
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('Error al obtener el usuario para editar:', error);
+                    }
+                });
+            });
+
+            // Cerrar modal para editar usuario
+            $('.close').click(function () {
+                $('#modalEditarUsuario').css('display', 'none');
+            });
+
+            // Editar un usuario
+            $('#formularioEditarUsuario').submit(function (event) {
+                event.preventDefault();
+                var id = $('#edit_id').val();
+                var nombre = $('#edit_nombre').val();
+                var correo = $('#edit_correo').val();
+                var rol = $('#edit_rol').val();
+
+                $.ajax({
+                    url: 'crud.php',
+                    type: 'PUT',
+                    data: {
+                        id: id,
+                        nombre: nombre,
+                        correo: correo,
+                        rol: rol
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        $('#modalEditarUsuario').css('display', 'none');
+                        cargarUsuarios(); // Volver a cargar la lista de usuarios después de editar uno
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('Error al editar usuario:', error);
+                    }
+                });
+            });
+
+            // Eliminar un usuario
+            $(document).on('click', '.eliminarUsuario', function () {
+                var id = $(this).data('id');
+                if (confirm('¿Estás seguro de eliminar este usuario?')) {
+                    $.ajax({
+                        url: 'crud.php',
+                        type: 'DELETE',
+                        data: {
+                            id: id
+                        },
+                        success: function (response) {
+                            console.log(response);
+                            cargarUsuarios(); // Volver a cargar la lista de usuarios después de eliminar uno
+                        },
+                        error: function (xhr, status, error) {
+                            console.log('Error al eliminar usuario:', error);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

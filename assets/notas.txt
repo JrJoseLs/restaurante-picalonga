@@ -1,0 +1,8 @@
+Sistema no es LOCAL 
+Correos de confirmación de usuario & transacciones
+Usuario de Administrador para poder modificar el contenido
+Usuarios: Recepción, mesero y cajero
+Reservas (tiempo de reservación)
+Meses Reservadas, Ocupadas y libres 
+Meses cantidad
+Factura por persona y/o grupos de personas
