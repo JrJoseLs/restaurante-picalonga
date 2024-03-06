@@ -1,51 +1,36 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['numero_mesa'])) {
-    $numero_mesa = $_POST['numero_mesa'];
+require_once "../../config.php"; // Importar archivo de configuración de la base de datos
 
-    // Conexión a la base de datos
-    require_once "../../config.php"; // Importar archivo de configuración de la base de datos
+$nombre_cliente = $_POST['nombre_cliente'];
+$telefono = $_POST['telefono'];
+$fecha_reserva = $_POST['fecha_reserva'];
+$hora_reserva = $_POST['hora_reserva'];
+$num_personas = $_POST['num_personas'];
 
+$sql = "SELECT * FROM mesas WHERE disponible = TRUE";
+$result = $conn->query($sql);
 
-    
-    // Verificar si la mesa está disponible
-    $sql_check = "SELECT id FROM mesas WHERE numero_mesa = $numero_mesa AND estado = 'disponible'";
-    $result_check = mysqli_query($conn, $sql_check);
-    if (mysqli_num_rows($result_check) > 0) {
-        // Actualizar estado de la mesa a 'ocupada'
-        $sql_update = "UPDATE mesas SET estado = 'ocupada' WHERE numero_mesa = $numero_mesa";
-        if (mysqli_query($conn, $sql_update)) {
-            echo 'Mesa #' . $numero_mesa . ' reservada correctamente.';
-        } else {
-            echo 'Error al reservar la mesa: ' . mysqli_error($conn);
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $mesa_id = $row['id'];
+        $sql = "SELECT * FROM reservas WHERE mesa_id = '$mesa_id' AND fecha_reserva = '$fecha_reserva' AND hora_reserva = '$hora_reserva'";
+        $check_result = $conn->query($sql);
+        if ($check_result->num_rows == 0) {
+            $sql = "INSERT INTO reservas (nombre_cliente, telefono, fecha_reserva, hora_reserva, num_personas, mesa_id)
+            VALUES ('$nombre_cliente', '$telefono', '$fecha_reserva', '$hora_reserva', $num_personas, $mesa_id)";
+            if ($conn->query($sql) === TRUE) {
+                $sql = "UPDATE mesas SET disponible = FALSE WHERE id = $mesa_id";
+                $conn->query($sql);
+                echo "Reserva realizada exitosamente!";
+            } else {
+                echo "Error al realizar la reserva: " . $conn->error;
+            }
+            break;
         }
-    } else {
-        echo 'La mesa #' . $numero_mesa . ' no está disponible para reservar.';
     }
-
-    mysqli_close($conn);
 } else {
-    // Código para mostrar las mesas disponibles si no se está realizando una reserva
-    $conn = mysqli_connect('localhost', 'usuario', 'contraseña', 'basededatos');
-    if (!$conn) {
-        die('Error al conectarse a la base de datos: ' . mysqli_connect_error());
-    }
-
-    // Consulta para obtener las mesas disponibles
-    $sql = "SELECT id, numero_mesa FROM mesas WHERE estado = 'disponible'";
-    $result = mysqli_query($conn, $sql);
-
-    // Mostrar las mesas disponibles
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            echo '<div class="mesa disponible">';
-            echo 'Mesa #' . $row['numero_mesa'];
-            echo '<a href="reservar.php?id=' . $row['id'] . '">Reservar</a>';
-            echo '</div>';
-        }
-    } else {
-        echo 'No hay mesas disponibles en este momento.';
-    }
-
-    mysqli_close($conn);
+    echo "No hay mesas disponibles en ese momento.";
 }
+
+$conn->close();
 ?>
