@@ -1,5 +1,5 @@
 <?php
-require_once "../../config.php"; // Importar archivo de configuración de la base de datos
+require_once "../../config.php"; 
 
 $nombre_cliente = $_POST['nombre_cliente'];
 $telefono = $_POST['telefono'];

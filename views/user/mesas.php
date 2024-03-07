@@ -1,5 +1,5 @@
 <?php
-require_once "../../config.php"; // Importar archivo de configuración de la base de datos
+require_once "../../config.php"; 
 
 $sql = "SELECT * FROM mesas WHERE disponible = TRUE";
 $result = $conn->query($sql);

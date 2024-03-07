@@ -11,7 +11,7 @@ $result = $conn->query($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visualizar Mesas</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../../views/styles.css">
 </head>
 <body>
     <h1>Mesas Disponibles</h1>
