@@ -39,7 +39,7 @@
             <img src="https://cdn-icons-png.flaticon.com/512/616/616445.png" alt="Logo">
         </div>
         <div class="nav-buttons">
-            <a href="user.html">Inicio</a>
+            <a href="user.php">Inicio</a>
             <a href="#">Acerca de</a>
             <a href="#">Contacto</a>
             <form action="../../logout.php" method="post">
