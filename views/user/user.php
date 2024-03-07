@@ -19,6 +19,21 @@
 <link rel="icon" type="image/svg+xml" href="https://cdn-icons-png.flaticon.com/512/3170/3170733.png" />
 
 <body>
+
+
+    <?php
+    session_start();
+    
+    // Verificar si el usuario ha iniciado sesión
+    if(isset($_SESSION['nombre'])){
+        $nombre_usuario = $_SESSION['nombre'];
+        echo "<h2>Bienvenido, $nombre_usuario</h2>";
+    } else {
+        echo "<h2>No has iniciado sesión</h2>";
+    }
+    ?>
+
+    <!--Navbar-->
     <div class="navbar">
         <div class="logo">
             <img src="https://cdn-icons-png.flaticon.com/512/616/616445.png" alt="Logo">

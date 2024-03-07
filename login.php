@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['rol'] = $row['rol'];
 
         if ($row['rol'] == 'usuario') {
-            header("Location: views/user/user.html");
+            header("Location: views/user/user.php");
         } elseif ($row['rol'] == 'admin') {
             header("Location: views/admin/admin.html");
         }

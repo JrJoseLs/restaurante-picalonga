@@ -15,21 +15,7 @@ $result = $conn->query($sql);
 </head>
 <body>
 
-    <div class="navbar">
-        <div class="logo">
-            <img src="https://cdn-icons-png.flaticon.com/512/616/616445.png" alt="Logo">
-        </div>
-        <div class="nav-buttons">
-            <a href="admin.html">Inicio</a>
-            <a href="users.html">Users</a>
-            <a href="#">Contacto</a>
-            <form action="../../logout.php" method="post">
-                <button type="submit">Cerrar Sesión</button>
-            </form>
-        </div>
-    </div>
-
-
+    <a href="admin.html">Atras</a>
     <h1>Mesas Disponibles</h1>
     <table>
         <thead>
