@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-02-2024 a las 03:08:56
+-- Tiempo de generación: 07-03-2024 a las 14:49:03
 -- Versión del servidor: 10.4.25-MariaDB
 -- Versión de PHP: 8.1.10
 
@@ -24,35 +24,46 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `facturas`
---
-
-CREATE TABLE `facturas` (
-  `id` int(11) NOT NULL,
-  `id_mesa` int(11) NOT NULL,
-  `total` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `mesas`
 --
 
 CREATE TABLE `mesas` (
   `id` int(11) NOT NULL,
-  `numero_mesa` int(11) DEFAULT NULL,
-  `estado` enum('disponible','ocupada') DEFAULT 'disponible'
+  `nombre` varchar(50) NOT NULL,
+  `disponible` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `mesas`
 --
 
-INSERT INTO `mesas` (`id`, `numero_mesa`, `estado`) VALUES
-(1, 1, 'disponible'),
-(2, 2, 'ocupada'),
-(3, 3, 'disponible');
+INSERT INTO `mesas` (`id`, `nombre`, `disponible`) VALUES
+(1, 'Mesa 1', 1),
+(2, 'Mesa 2', 1),
+(3, 'Mesa 3', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `reservas`
+--
+
+CREATE TABLE `reservas` (
+  `id` int(11) NOT NULL,
+  `nombre_cliente` varchar(100) NOT NULL,
+  `telefono` varchar(20) NOT NULL,
+  `fecha_reserva` date NOT NULL,
+  `hora_reserva` time NOT NULL,
+  `num_personas` int(11) NOT NULL,
+  `mesa_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `reservas`
+--
+
+INSERT INTO `reservas` (`id`, `nombre_cliente`, `telefono`, `fecha_reserva`, `hora_reserva`, `num_personas`, `mesa_id`) VALUES
+(0, 'juan', '1234', '2024-03-07', '09:47:00', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -84,19 +95,6 @@ INSERT INTO `usuarios` (`id`, `nombre`, `correo`, `contraseña`, `rol`) VALUES
 --
 
 --
--- Indices de la tabla `facturas`
---
-ALTER TABLE `facturas`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_mesa` (`id_mesa`);
-
---
--- Indices de la tabla `mesas`
---
-ALTER TABLE `mesas`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -107,32 +105,10 @@ ALTER TABLE `usuarios`
 --
 
 --
--- AUTO_INCREMENT de la tabla `facturas`
---
-ALTER TABLE `facturas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT de la tabla `mesas`
---
-ALTER TABLE `mesas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `facturas`
---
-ALTER TABLE `facturas`
-  ADD CONSTRAINT `facturas_ibfk_1` FOREIGN KEY (`id_mesa`) REFERENCES `mesas` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
