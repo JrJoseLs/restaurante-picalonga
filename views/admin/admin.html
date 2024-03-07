@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,7 +10,7 @@
     <link rel="icon" type="image/svg+xml" href="https://cdn-icons-png.flaticon.com/512/3170/3170733.png" />
 </head>
 <body>
-    <h1>USUARIO DE MIERDA EN EL PICAPOOLLO</h1>
+    <h1>SOY ADMIN</h1>
     
     
 
@@ -30,10 +30,151 @@
     </div>
 
 
-    <h1>Bienvenido a nuestro restaurante</h1>
+    <h3>Bienvenido a nuestro restaurante</h3>
     <p>Por favor, seleccione una opción:</p>
     <ul>
         <li><a href="mesas2.php">Visualizar Mesas</a></li>
     </ul>
 </body>
+</html> -->
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DASHBOARD</title>
+
+    <link rel="icon" type="image/svg+xml" href="https://cdn-icons-png.flaticon.com/512/3170/3170733.png" />
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .dashboard {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #fff;
+            color: #333;
+            border-radius: 10px 10px 0 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-icon {
+            font-size: 24px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        .dropdown-content button {
+            display: block;
+            padding: 10px 20px;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 10px 20px;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f5f5f5;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="dashboard">
+            <nav>
+                <h1>Dashboard</h1>
+                <div class="dropdown">
+                    <span class="menu-icon">&#8942;</span>
+                    <form class="dropdown-content" action="../../logout.php">
+                        <a href="users.html">Usuarios</a>
+                        <a href="#">Help</a>
+                        <button type="submit">Sign Out</button>
+                    </form>
+                </div>
+            </nav>
+
+            <h2>Resumen del Dashboard</h2>
+            <p>¡Bienvenido al dashboard!</p>
+            <p>Aquí encontrarás un resumen de toda la página.</p>
+
+            <ul id="usuarios-lista">
+                <li><strong>Total de visitas:</strong> 1000</li>
+                <li><strong>Usuarios:</strong> <span id="total-usuarios"></span></li>
+                <li><strong>Reservaciones:</strong> <span id="total_reservas"></span></li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
 </html>
